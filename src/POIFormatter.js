@@ -58,8 +58,10 @@ class POIFormatter extends Component {
     const content = e.target.value;
     if (!isEmpty(content)) {
       const arrNodes = this._format(content);
-      const result = [arrNodes];
-      this._output.value = `"coordinates": ${JSON.stringify(result, null, 4)}`;
+      const result = JSON.stringify([arrNodes], null, 4)
+      const resultFormatted = result.replace(/"/g, '')
+
+      this._output.value = `"coordinates": ${resultFormatted}`;
     }
   };
 }
