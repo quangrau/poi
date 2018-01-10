@@ -7,9 +7,11 @@ class App extends Component {
     return (
       <div className="App">
         <nav className="App__header navbar navbar-light">
-          <a className="navbar-brand" href="#">POI</a>
+          <a className="navbar-brand">
+            <span className="fa fa-home" />
+          </a>
         </nav>
-        <div className="container-fluid">
+        <div className="App__content container-fluid">
           <POI />
         </div>
       </div>

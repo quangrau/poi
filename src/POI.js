@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { isEmpty, first, last } from "lodash";
+import { isEmpty, map, first, last } from "lodash";
 import POIInput from "./POIInput";
 import POIOutput from "./POIOutput";
 import POIMap from "./POIMap";
 import "./POI.css";
 
-class POIFormatter extends Component {
+class POI extends Component {
   state = {
     editable: false,
     coordinates: []
@@ -14,22 +14,25 @@ class POIFormatter extends Component {
   renderEditButton() {
     return (
       <button className="btn btn-outline-primary" onClick={this._toggleEdit}>
-        <span className="fa fa-edit"/> Edit POI
+        <span className="fa fa-edit" /> Edit POI
       </button>
-    )
+    );
   }
 
   renderSaveButton() {
     return (
       <div className="POI__buttons">
         <button className="btn btn-outline-danger" onClick={this._toggleEdit}>
-          <span className="fa fa-close"/> Reset
+          <span className="fa fa-close" /> Reset
         </button>
-        <button className="btn btn-outline-success" onClick={this._toggleEdit}>
-          <span className="fa fa-save"/> Save
+        <button
+          className="btn btn-outline-success"
+          onClick={this._handleOnSave}
+        >
+          <span className="fa fa-save" /> Save
         </button>
       </div>
-    )
+    );
   }
 
   render() {
@@ -37,7 +40,7 @@ class POIFormatter extends Component {
 
     return (
       <div className="POI">
-        <div className="row">
+        <div className="row row-input">
           <div className="col-md-6">
             <div className="form-group">
               <label className="POI__label">Input</label>
@@ -51,24 +54,32 @@ class POIFormatter extends Component {
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-12 text-md-center" style={{ paddingBottom: "1rem" }}>
-            {editable
-              ? this.renderSaveButton()
-              : this.renderEditButton()
-            }
+        <div className="row row-btn">
+          <div className="col-md-12 text-md-center">
+            {editable ? this.renderSaveButton() : this.renderEditButton()}
           </div>
+        </div>
+        <div className="row row-map">
           <div className="col-md-12">
-            <POIMap editable={editable} hideMap={isEmpty(coordinates)} coordinates={coordinates} />
+            <POIMap
+              editable={editable}
+              hideMap={isEmpty(coordinates)}
+              coordinates={coordinates}
+              getPolygon={this._getPolygon}
+            />
           </div>
         </div>
       </div>
     );
   }
 
+  _getPolygon = ref => {
+    this._polygon = ref;
+  };
+
   _toggleEdit = () => {
-    this.setState({ editable: !this.state.editable })
-  }
+    this.setState({ editable: !this.state.editable });
+  };
 
   _formatCoordinates(content) {
     const coordinates = [];
@@ -115,6 +126,19 @@ class POIFormatter extends Component {
       this.setState({ coordinates: [] });
     }
   };
+
+  _handleOnSave = e => {
+    e.preventDefault();
+
+    if (this._polygon) {
+      const data = this._polygon.getPaths();
+      const paths = data.b[0].b || [];
+      const coordinates = map(paths, path => [path.lng(), path.lat()]);
+
+      // Update new data
+      this.setState({ coordinates, editable: false })
+    }
+  };
 }
 
-export default POIFormatter;
+export default POI;

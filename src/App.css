@@ -4,7 +4,7 @@
 }
 
 .App__header {
-  background-color: #222;
+  background-color: #00b140;
   color: #ffffff;
 }
 .App__header .navbar-brand {
@@ -12,6 +12,5 @@
 }
 
 .App__content {
-  background-color: #222;
-  color: white;
+  height: 100%;
 }

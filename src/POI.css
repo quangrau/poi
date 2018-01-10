@@ -1,5 +1,17 @@
 .POI {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   padding: 1rem 0;
+}
+.POI .row.row-input{
+  
+}
+.POI .row.row-btn{
+  padding-bottom: 1rem;
+}
+.POI .row.row-map{
+  flex: 1;
 }
 .POI__label {
   font-size: 16px;
