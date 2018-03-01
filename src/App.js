@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import POI from "./POI";
+import AWS from 'aws-sdk'
 import "./App.css";
+
+const S3 = new AWS.S3()
+
+console.log(S3)
 
 class App extends Component {
   render() {
