@@ -4,6 +4,9 @@
   flex-direction: column;
   padding: 1rem 0;
 }
+.POI__controls {
+  padding-bottom: 2rem;
+}
 .POI .row.row-input{
   
 }
